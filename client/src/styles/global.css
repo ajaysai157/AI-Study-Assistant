@@ -1,0 +1,13 @@
+@import "./variables.css";
+
+body {
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: Inter, sans-serif;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-primary);
+  color: white;
+}

@@ -1,27 +1,42 @@
 import { Routes, Route } from "react-router-dom";
 
+import PublicLayout from "../layouts/PublicLayout";
+import WorkspaceLayout from "../layouts/WorkspaceLayout";
+
 import Landing from "../pages/Landing/Landing";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
-import Dashboard from "../pages/Dashboard/Dashboard";
-import Subject from "../pages/Subject/Subject";
+
+import Home from "../pages/Home/Home";
+import Notes from "../pages/Notes/Notes";
 import Profile from "../pages/Profile/Profile";
+
 import NotFound from "../pages/NotFound/NotFound";
 
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Landing />} />
+      {/* ---------- Public Routes ---------- */}
 
-      <Route path="/login" element={<Login />} />
+      <Route element={<PublicLayout />}>
+        <Route path="/" element={<Landing />} />
 
-      <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
 
-      <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/register" element={<Register />} />
+      </Route>
 
-      <Route path="/subject" element={<Subject />} />
+      {/* ---------- Workspace Routes ---------- */}
 
-      <Route path="/profile" element={<Profile />} />
+      <Route element={<WorkspaceLayout />}>
+        <Route path="/home" element={<Home />} />
+
+        <Route path="/notes" element={<Notes />} />
+
+        <Route path="/profile" element={<Profile />} />
+      </Route>
+
+      {/* ---------- Not Found ---------- */}
 
       <Route path="*" element={<NotFound />} />
     </Routes>

@@ -1,11 +1,14 @@
 import Container from "./Container";
 
-function Section({ children, className = "" }) {
+function Section({
+  children,
+  className = "",
+  padding = "py-24",
+  id,
+}) {
   return (
-    <section className={`py-24 ${className}`}>
-      <Container>
-        {children}
-      </Container>
+    <section id={id} className={`${padding} ${className}`}>
+      <Container>{children}</Container>
     </section>
   );
 }
