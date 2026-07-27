@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum NoteStatus {
+  PROCESSING
+  READY
+  FAILED
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  notes     Note[]
+}
+
+model Note {
+  id               String      @id @default(cuid())
+
+  title            String
+
+  originalFileName String
+
+  storedFileName   String
+
+  fileType         String
+
+  fileSize         Int
+
+  pageCount        Int?
+
+  status           NoteStatus  @default(PROCESSING)
+
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  userId           String
+  user             User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
