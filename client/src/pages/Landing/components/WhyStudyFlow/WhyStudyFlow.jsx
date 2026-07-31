@@ -1,7 +1,20 @@
+import { motion } from "framer-motion";
 import Section from "../../../../components/ui/Section";
-
 import BenefitCard from "./BenefitCard";
 import benefits from "./benefitsData";
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 },
+  },
+};
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+};
 
 function WhyStudyFlow() {
   const featured = benefits.find((b) => b.featured);
@@ -9,34 +22,40 @@ function WhyStudyFlow() {
 
   return (
     <Section
-      className="bg-slate-50"
+      className="bg-zinc-50 dark:bg-zinc-900/50"
       padding="py-24"
     >
-      <div className="mx-auto max-w-3xl text-center">
-        <p className="font-semibold uppercase tracking-widest text-emerald-600">
+      <motion.div
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-80px" }}
+        variants={container}
+        className="mx-auto max-w-3xl text-center"
+      >
+        <motion.p variants={fadeUp} className="text-sm font-semibold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">
           Why StudyFlow
-        </p>
-
-        <h2 className="mt-4 text-4xl font-black text-slate-900">
+        </motion.p>
+        <motion.h2 variants={fadeUp} className="mt-3 text-3xl font-black text-zinc-900 dark:text-zinc-100 sm:text-4xl">
           Everything You Need For Better Learning
-        </h2>
-
-        <p className="mt-6 text-lg leading-8 text-slate-600">
-          More than an AI tool—StudyFlow is your complete learning workspace built
+        </motion.h2>
+        <motion.p variants={fadeUp} className="mt-4 text-base leading-relaxed text-zinc-500 dark:text-zinc-400">
+          More than an AI tool — StudyFlow is your complete learning workspace built
           to help you stay organized, save time, and learn effectively.
-        </p>
-      </div>
+        </motion.p>
+      </motion.div>
 
-      <div className="mt-16 grid gap-6 lg:grid-cols-3">
+      <motion.div
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-80px" }}
+        variants={container}
+        className="mt-16 grid gap-6 lg:grid-cols-3"
+      >
         <BenefitCard {...featured} />
-
         {others.map((item) => (
-          <BenefitCard
-            key={item.title}
-            {...item}
-          />
+          <BenefitCard key={item.title} {...item} />
         ))}
-      </div>
+      </motion.div>
     </Section>
   );
 }

@@ -1,5 +1,3 @@
-import LandingNavbar from "../../components/layout/LandingNavbar";
-
 import Hero from "./components/Hero/Hero";
 import Features from "./components/Features/Features";
 import HowItWorks from "./components/HowItWorks/HowItWorks";
@@ -12,15 +10,14 @@ import Footer from "./components/Footer/Footer";
 function Landing() {
   return (
     <>
-      <LandingNavbar />
       <Hero />
       <Features />
       <HowItWorks />
-      <WhyStudyFlow/>
-      <LearningJourney/>
-      <FAQ/>
-      <CTA/>
-      <Footer/>
+      <WhyStudyFlow />
+      <LearningJourney />
+      <FAQ />
+      <CTA />
+      <Footer />
     </>
   );
 }

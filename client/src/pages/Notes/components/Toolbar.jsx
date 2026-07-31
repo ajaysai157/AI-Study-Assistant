@@ -1,39 +1,42 @@
-import { Search, Plus, SlidersHorizontal } from "lucide-react";
-
+import { Search, Upload } from "lucide-react";
 import Button from "../../../components/ui/Button";
 
-function Toolbar() {
+function Toolbar({ search, onSearchChange, onUploadClick, totalCount, sort, onSortChange }) {
   return (
-    <div className="mb-8 flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm lg:flex-row lg:items-center lg:justify-between">
-      
-      {/* Search */}
-
-      <div className="flex flex-1 items-center rounded-xl border border-slate-200 px-4 py-3">
+    <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="relative flex-1 max-w-md">
         <Search
-          size={18}
-          className="text-slate-400"
+          size={16}
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 dark:text-zinc-500"
         />
-
         <input
           type="text"
-          placeholder="Search your notes..."
-          className="ml-3 w-full bg-transparent outline-none"
+          placeholder="Search notes..."
+          value={search}
+          onChange={(e) => onSearchChange(e.target.value)}
+          className="w-full rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/50 py-2.5 pl-10 pr-3 text-sm text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all"
         />
       </div>
 
-      {/* Actions */}
-
-      <div className="flex items-center gap-3">
-        <button className="flex items-center gap-2 rounded-xl border border-slate-200 px-4 py-3 transition hover:bg-slate-50">
-          <SlidersHorizontal size={18} />
-
-          Filter
-        </button>
-
-        <Button>
-          <Plus size={18} />
-
-          Upload Notes
+      <div className="flex items-center gap-2.5">
+        {totalCount !== undefined && (
+          <span className="text-sm text-zinc-500 dark:text-zinc-400">
+            {totalCount} note{totalCount !== 1 ? "s" : ""}
+          </span>
+        )}
+        <select
+          value={sort}
+          onChange={(e) => onSortChange(e.target.value)}
+          className="flex items-center gap-1.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/50 px-3 py-2.5 text-sm font-medium text-zinc-600 dark:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/10 transition-colors cursor-pointer"
+        >
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+          <option value="az">A &rarr; Z</option>
+          <option value="za">Z &rarr; A</option>
+        </select>
+        <Button onClick={onUploadClick} size="sm">
+          <Upload size={15} />
+          Upload
         </Button>
       </div>
     </div>

@@ -1,77 +1,60 @@
-import {
-  BookOpen,
-  Brain,
-  ClipboardCheck,
-  FileText,
-  ArrowRight,
-} from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { FileText, ArrowRight, Clock } from "lucide-react";
+import { motion } from "framer-motion";
+
+const statusColors = {
+  READY: "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400",
+  PROCESSING: "bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
+  FAILED: "bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400",
+};
 
 function NoteCard({ note }) {
+  const navigate = useNavigate();
+
   return (
-    <article className="group rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-400 hover:shadow-lg">
-
-      {/* File Type */}
-
+    <motion.article
+      layout
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      onClick={() => navigate(`/notes/${note.id}`)}
+      className="group cursor-pointer rounded-2xl border border-zinc-200/70 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-lg"
+    >
       <div className="flex items-center justify-between">
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-100">
-          <FileText
-            size={24}
-            className="text-emerald-600"
-          />
+        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-100 to-emerald-50 dark:from-emerald-900/50 dark:to-emerald-800/30">
+          <FileText size={24} className="text-emerald-600 dark:text-emerald-400" />
         </div>
-
-        <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
-          PDF
+        <span
+          className={`rounded-full px-3 py-1 text-xs font-semibold ${
+            statusColors[note.status] || "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
+          }`}
+        >
+          {note.status}
         </span>
       </div>
 
-      {/* Title */}
-
-      <h3 className="mt-6 line-clamp-2 text-xl font-bold text-slate-900">
+      <h3 className="mt-5 line-clamp-2 text-lg font-bold text-zinc-900 dark:text-zinc-100">
         {note.title}
       </h3>
 
-      {/* Meta */}
-
-      <div className="mt-4 flex items-center gap-4 text-sm text-slate-500">
-        <span>{note.pages} Pages</span>
-
-        <span>•</span>
-
-        <span>{note.uploadedAt}</span>
+      <div className="mt-3 flex items-center gap-4 text-sm text-zinc-500 dark:text-zinc-400">
+        <span className="flex items-center gap-1">
+          <Clock size={14} />
+          {new Date(note.createdAt).toLocaleDateString()}
+        </span>
+        {note.pageCount && (
+          <>
+            <span className="text-zinc-300 dark:text-zinc-600">&bull;</span>
+            <span>{note.pageCount} pages</span>
+          </>
+        )}
       </div>
 
-      {/* AI Features */}
-
-      <div className="mt-6 flex flex-wrap gap-2">
-        <span className="flex items-center gap-1 rounded-lg bg-emerald-50 px-3 py-2 text-xs font-medium text-emerald-700">
-          <BookOpen size={14} />
-
-          Summary
-        </span>
-
-        <span className="flex items-center gap-1 rounded-lg bg-blue-50 px-3 py-2 text-xs font-medium text-blue-700">
-          <Brain size={14} />
-
-          Flashcards
-        </span>
-
-        <span className="flex items-center gap-1 rounded-lg bg-purple-50 px-3 py-2 text-xs font-medium text-purple-700">
-          <ClipboardCheck size={14} />
-
-          Quiz
-        </span>
+      <div className="mt-5 flex items-center gap-2 text-sm font-semibold text-emerald-600 dark:text-emerald-400 transition-all group-hover:gap-3">
+        View Details
+        <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
       </div>
-
-      {/* Action */}
-
-      <button className="mt-8 flex items-center gap-2 font-semibold text-emerald-600 transition group-hover:gap-3">
-        Open Workspace
-
-        <ArrowRight size={18} />
-      </button>
-
-    </article>
+    </motion.article>
   );
 }
 
